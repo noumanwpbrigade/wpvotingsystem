@@ -155,6 +155,7 @@ form.form h3 {
 
 .form-group input {
     width: 98%;
+    padding: 8px;
 }
 
 .submit-btn {

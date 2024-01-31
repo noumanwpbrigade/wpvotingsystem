@@ -180,3 +180,33 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
+
+
+// DATABASE START
+// Function to create the table on theme activation
+function create_voter_table_on_activation() {
+    global $wpdb;
+
+    // Define the table name with the WordPress prefix
+    $table_name = $wpdb->prefix . 'voter';
+
+    // Define the SQL for creating the table
+    $sql = "CREATE TABLE $table_name (
+		id int(11) NOT NULL AUTO_INCREMENT,
+		username varchar(50) NOT NULL,
+		email varchar(100) NOT NULL,
+		cnic varchar(100) NOT NULL,
+		password varchar(255) NOT NULL,
+		hasvoted tinyint(1) DEFAULT NULL,
+		PRIMARY KEY (id)
+	  );";
+
+    // Execute the SQL query to create the table
+    $wpdb->query($sql);
+}
+
+// Hook the function to theme activation
+register_activation_hook(__FILE__, 'create_voter_table_on_activation');
+
+
+// DATABASE END

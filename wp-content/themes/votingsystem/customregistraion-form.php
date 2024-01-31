@@ -6,6 +6,7 @@
 // 3. form validation
 // 4. create wp user
 
+
 get_header();
 ?>
 
@@ -15,7 +16,7 @@ get_header();
         <!-- user name -->
         <div class="form-group">
             <label for="name">Username</label> <br>
-            <input type="text" name="name" id="name">
+            <input type="text" name="name" id="name" placeholder="Without Space">
         </div>
 
         <!-- user email -->
@@ -49,9 +50,44 @@ get_header();
     </form>
 </div>
 
+<?php get_footer(); 
+// form validation
+
+global $wpdb;
+
+if (isset($_POST['registerbtn'])) {
+    // $username = sanitize_text_field($_POST['name']);
+    $username = $_POST['name'];
+    $email = $_POST['email'];
+    $cnic = $_POST['cnic'];
+    $password = $_POST['password'];
+    $confPassword = $_POST['confirmpw'];
+
+    
+
+    $table_name = $wpdb->prefix . 'voter';
+
+    // Prepare data as an associative array
+    $data = array(
+        'username' => $username,
+        'email'    => $email,
+        'cnic'     => $cnic,
+        'password' => $password,
+    );
+    
+    // Insert data into the table
+    $result = $wpdb->insert($table_name, $data);
+
+    if ($result) {
+        echo "<script>alert('Data inserted')</script>";
+    } else {
+        echo "<script>alert('Data not inserted')</script>";
+    }
+}
 
 
+// In WordPress, you don't typically use mysqli_real_escape_string directly because WordPress provides its own database abstraction layer through the global $wpdb object. The $wpdb object includes a method called prepare that you can use to safely prepare SQL queries
 
 
-<?php get_footer(); ?>
+?>
 
