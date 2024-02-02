@@ -44,7 +44,7 @@
             </div>
 
             <div class="nav-btns">
-                <button href="login.php" id="login-btn" class="btn btn-login t-white btn-2490">Login</button>
+                <a href="http://localhost/sitevoitngsystem/login-page-form/" id="login-btn" class="btn btn-login t-white btn-2490">Login</a>
                 <a href="http://localhost/sitevoitngsystem/registration-form/" class="btn btn-register t-white">Register</a>
             </div>
         </div>
