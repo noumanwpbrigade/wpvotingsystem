@@ -9,6 +9,10 @@
     cursor: pointer;
 }
 
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
 #admin-logout {
     background: red;
     color: #fff;
@@ -28,6 +32,8 @@
     width: 200px;
     height: 100vh;
     background-color: #565656;
+    
+    padding-top: 150px;
 }
 
 .main-content {
@@ -126,7 +132,6 @@ td {
 }
 
 /* error message with "Add New" button */
-/* error message with "Add New" button */
 #close-error {
     background-color: red;
     padding: 3px;
@@ -192,4 +197,41 @@ td {
 .form-group input {
     border: 1px solid gray;
     border-radius: 5px;
+}
+
+/* admin voters / users page */
+
+.voted-user,
+.remaing-user,
+.total-users {
+    width: 150px;
+    height: 100px;
+    color: #fff;
+    margin-bottom: 15px;
+
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.remaing-user {
+    background-color: #E95C20FF;
+}
+
+.voted-user {
+    background-color: #006747FF;
+}
+
+.total-users  {
+    background-color: #00B1D2FF;
+}
+
+.mth-symbol {
+    font-size: 50px;
+    color: gray;
+}
+
+.number {
+    font-size: 2rem;
 }

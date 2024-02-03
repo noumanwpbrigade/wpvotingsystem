@@ -4,6 +4,10 @@
 ob_start();
 session_start();
 wp_head();
+if (!isset($_SESSION['user_data'])) {
+    header("location: http://localhost/sitevoitngsystem/login-page-form/");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +32,7 @@ wp_head();
 					<?php } ?>
 		</div>
         <div class="user-image flex">
-            Hi,<?php ?>
+            Hi,<?php echo $_SESSION['user_data']['username']; ?>
             <img  src="<?php echo get_template_directory_uri(); ?>/assets/images/usericon.png" alt="image" class="profile-image">
             
         </div>
@@ -42,6 +46,11 @@ wp_head();
         // $directory = get_template_directory_uri() . "/admin-sidebar.php";
         // include $directory;
     ?>
+        <div class="sidebar-flex">
+            <a href="http://localhost/sitevoitngsystem/admin-panel/">Manage Candidates</a>
+            <hr>
+            <a href="http://localhost/sitevoitngsystem/tracks-user/">Voters / Users</a>
+        </div>
 
     </div>
 
@@ -186,11 +195,17 @@ wp_head();
                         <td><img src='{$candidate->entakhabineshan	}' alt='Entakhabi Neshan' width='50px' height='50px'></td>
                         <td>{$candidate->votesReceived}</td>
                         <td>
-                            <form method=\"POST\">
-                            <input type=\"submit\" value=\"Delete\">
+                            <form class='m-0' action=\"\" method='post' onsubmit='return confirm(\"Are you sure, you want to delete this candidate !\")'>
+                                <input type='hidden' name='deleteid' value='" . $candidate->candidateID . "'>
+                                <input type='submit' name='deletecandi' value='Delete' class='btn-danger'>
                             </form>
                         </td>
                     </tr>";
+            }
+            if(isset($_POST['deletecandi'])){
+                $id = $_POST['deleteid'];
+                $delete_sql =$wpdb->get_results("DELETE FROM {$wpdb->prefix}candidates WHERE candidateID = '$id'");
+                header("Location: http://localhost/sitevoitngsystem/admin-panel/");
             }
             
 

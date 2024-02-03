@@ -94,8 +94,34 @@ if (!isset($_SESSION['user_data'])) {
     </fieldset>
 </div>
 
-<!-- candidate list -->
+    <!-- candidate list -->
+    <div class="container">
+        <h2 class="my-15">Candidate List</h2>
+        <div class="flex flex-wrap">
+            <?php 
+            $candidates = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}candidates" );
+            $counter = 0;
 
+            foreach ( $candidates as $candidate ) { ?>
+                    <div class="canWrapper flex-column center-center w-50" data-aos="flip-left" data-aos-duration="1000">
+                        <div class="symbol">
+                            <img src="<?php echo $candidate->entakhabineshan;?>" alt="Neshan">
+                        </div>
+                        <div class="party-name my-10"><?php echo $candidate->partyname; ?></div>
+                        <div class="candidate-name my-10"><?php echo $candidate->candidate_name; ?></div>
+                        <form action="" method="post" class="m-0">
+                            <input type="hidden" name="canID" value="">
+                            <input type="submit" name="vote" value="vote" class="vote-btn">
+                        </form>
+                    </div>
+            <?php }  ?> 
+        </div>      
+    </div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
 <?php
 get_footer();
 ?>

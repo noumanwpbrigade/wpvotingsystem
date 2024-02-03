@@ -80,6 +80,7 @@ function votingsystem_scripts() {
 	// css
 	wp_enqueue_style('main-stylesheet', get_template_directory_uri() . "/assets/css/main.css");
 	wp_enqueue_style('admin-stylesheet', get_template_directory_uri() . "/assets/css/admin-style.css");
+	wp_enqueue_style('aos-stylesheet', "https://unpkg.com/aos@2.3.1/dist/aos.css");
 	// Enqueue Scripts
 wp_enqueue_script('script', get_template_directory_uri() . "/assets/js/script.js", array(), wp_get_theme()->get('Version'), true);
 

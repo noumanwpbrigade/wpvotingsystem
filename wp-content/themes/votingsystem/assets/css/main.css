@@ -29,6 +29,18 @@ body {
     align-items: center;
 }
 
+.flex-column {
+    flex-direction: column;
+    gap: 10px;
+}
+
+.center-center {
+    align-items: center;
+    justify-content: center;
+}
+.w-50 {
+    width: calc(50% - 10px);
+}
 .gap-10 {
     gap: 10px;
 }
@@ -38,6 +50,10 @@ body {
 }
 .my-15 {
     margin: 15px 0;
+}
+
+.my-10 {
+    margin: 10px 0;
 }
 .t-white {
     color: #fff;
@@ -255,6 +271,30 @@ fieldset.flex .profile-right {
 .second-profile-img P{
     width: 150px;
     height: 150px;
+}
+
+/*  candidate section  */
+
+.symbol img {
+    width: 175px;
+    height: 175px;
+}
+
+.canWrapper {
+    margin: 15px 0;
+    text-align: center;
+}
+
+.vote-btn {
+    border: none;
+    outline: none;
+    padding: 7px 12px;
+    background: linear-gradient(to right, #0064B2, #2A888E);
+    width: 50%;
+    color: #fff;
+    font-size: 1.25rem;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 /* login form */
