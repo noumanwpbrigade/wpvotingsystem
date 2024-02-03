@@ -79,9 +79,10 @@ if (isset($_POST['loginbtn'])) {
             // Invalid email or password
             echo '<p class="error-message">Invalid email or password. Please try again.</p>';
         }
-    } else  {
+    } elseif( $role == 'admin' )  {
         // admin login
-        $sql_email_pw = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE email = %s AND password = %s", $lemail, $lpassword));
+        $admin_role = 1;
+        $sql_email_pw = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE email = %s AND password = %s AND role = %s", $lemail, $lpassword, $admin_role));
 
         if ($sql_email_pw) {
             // Login successful
