@@ -87,36 +87,71 @@ if (!isset($_SESSION['user_data'])) {
 
             <div class="detail-group">
                 <span class="fb">Status:</span>
-                <span><?php echo $_SESSION['user_data']['hasvoted']; ?></span>
+                <span class="c-red"><?php echo $_SESSION['user_data']['hasvoted']; ?></span>
             </div>
         </div>
 
     </fieldset>
 </div>
+<!-- Candidate list -->
+<div class="container">
+    <h2 class="my-15">Candidate List</h2>
+    <div class="flex flex-wrap">
+        <?php 
+        $candidates = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}candidates");
+        
+        foreach ($candidates as $candidate) { ?>
+            <div class="canWrapper flex-column center-center w-50" data-aos="flip-left" data-aos-duration="1000">
+                <div class="symbol">
+                    <img src="<?php echo $candidate->entakhabineshan; ?>" alt="Neshan">
+                </div>
+                <div class="party-name my-10"><?php echo $candidate->partyname; ?></div>
+                <div class="candidate-name my-10"><?php echo $candidate->candidate_name; ?></div>
+                <div class="candidate-name my-10"><?php echo $candidate->votesReceived; ?></div>
+                <form action="" method="post" class="m-0" onsubmit="return confirm('After casting your vote, you cannot vote again, and editing your vote. Please confirm by pressing OK.')">
+                    <input type="hidden" name="canID" value="<?php echo $candidate->candidateID; ?>">
+                    <input type="hidden" name="votes" value="<?php echo $candidate->votesReceived; ?>">
+                    <?php if (!isset($_SESSION['hasvoted'])) { ?>
+                        <input type="submit" name="vote" value="Vote" class="vote-btn">
+                    <?php } else { ?>
+                        <button disabled class="vote-btn">Vote</button>
+                    <?php } ?>
+                </form>
+            </div>
+        <?php } ?>
 
-    <!-- candidate list -->
-    <div class="container">
-        <h2 class="my-15">Candidate List</h2>
-        <div class="flex flex-wrap">
-            <?php 
-            $candidates = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}candidates" );
-            $counter = 0;
+        <?php
+        if (isset($_POST['vote'])) {
+            global $wpdb;
 
-            foreach ( $candidates as $candidate ) { ?>
-                    <div class="canWrapper flex-column center-center w-50" data-aos="flip-left" data-aos-duration="1000">
-                        <div class="symbol">
-                            <img src="<?php echo $candidate->entakhabineshan;?>" alt="Neshan">
-                        </div>
-                        <div class="party-name my-10"><?php echo $candidate->partyname; ?></div>
-                        <div class="candidate-name my-10"><?php echo $candidate->candidate_name; ?></div>
-                        <form action="" method="post" class="m-0">
-                            <input type="hidden" name="canID" value="">
-                            <input type="submit" name="vote" value="vote" class="vote-btn">
-                        </form>
-                    </div>
-            <?php }  ?> 
-        </div>      
+            $id = $_POST['canID'];
+            $votevalue = $_POST['votes'];
+            $totalVotes = $votevalue + 1;
+
+            // Update the database
+            $result = $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}candidates SET `votesReceived`='%d' WHERE candidateID = %d", $totalVotes, $id));
+
+            if ($result !== false) {
+                // Update session variable
+                $_SESSION['hasvoted'] = "yes";
+
+                // update voter status in DB
+                $voter_id = $_SESSION['user_data']['id'];
+                $update_status = $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}voter SET `hasvoted`='Voted' WHERE id = %d", $voter_id));
+
+                // update status in profile
+                $_SESSION['user_data']['hasvoted'] = 'Voted';
+
+                // Redirect to the voter panel
+                header("Location: http://localhost/sitevoitngsystem/voter-panel/");
+                exit(); 
+            } else {
+                echo "Failed to update votes.";
+            }
+        }
+        ?>
     </div>
+</div>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>

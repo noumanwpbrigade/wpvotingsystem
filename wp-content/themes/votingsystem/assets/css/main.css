@@ -297,6 +297,11 @@ fieldset.flex .profile-right {
     cursor: pointer;
 }
 
+.c-red {
+    color: red;
+    font-weight: bold;
+}
+
 /* login form */
 
 .description {

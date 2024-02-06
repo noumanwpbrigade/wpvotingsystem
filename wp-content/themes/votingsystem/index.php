@@ -16,6 +16,42 @@ get_header();
 ?>
 
 	<main id="primary" class="site-main">
+		<div class="container">
+			<div style="height: 40px"></div> <!-- spacer -->
+
+
+			
+			
+		<div style="height: 40px"></div> <!-- spacer -->
+		<table>
+            <thead>
+                <th>Name</th>
+                <th>Part Name</th>
+                <th>Image</th>
+                <th>Votes Received</th>
+            </thead>
+            <tbody>
+           <?php
+            $candidates = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}candidates" );
+            $counter = 0;
+
+            foreach ( $candidates as $candidate ) {
+                // Display candidate information
+                $counter++;
+
+                echo "<tr>
+                        <td>{$candidate->candidate_name}</td>
+                        <td>{$candidate->partyname}</td>
+                        <td><img src='{$candidate->entakhabineshan	}' alt='Entakhabi Neshan' width='50px' height='50px'></td>
+                        <td>{$candidate->votesReceived}</td>
+                    </tr>";
+            }
+            ?>
+           </tbody>
+           
+           
+        </table>
+		</div>
 
 	</main><!-- #main -->
 

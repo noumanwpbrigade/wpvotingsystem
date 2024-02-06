@@ -54,8 +54,17 @@ if (!isset($_SESSION['user_data'])) {
 
             <div class="total-users flex"> 
                 <div class=" ">
-                    <div class="number" data-target="<?php echo $_SESSION['counter']; ?>">
-                        <?php echo $_SESSION['counter']; ?>
+                    <div class="number" data-target="<?php echo $_SESSION['total_voters']; ?>">
+                        <?php
+                         global $wpdb;
+                         $table_name = $wpdb->prefix . 'voter';
+                         
+                         $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_name"));
+                         
+                         $total_voters = count($results);
+                         $_SESSION['total_voters'] = $total_voters;
+                         echo $total_voters; // total voted voters
+                        ?>
                     </div>               
                 </div> 
                 <div class="">
@@ -68,21 +77,32 @@ if (!isset($_SESSION['user_data'])) {
 
             <div class="voted-user flex">
                 <div class="">
-                    <div class="number" data-target="<?php echo "1000"; ?>">
-                        <?php echo "1000"; ?>
+                    <div class="number" data-target="<?php echo $_SESSION['voted_voters']; ?>">
+                        <?php
+                         global $wpdb;
+                         $table_name = $wpdb->prefix . 'voter';
+                         
+                         $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_name WHERE hasvoted = %s",'Voted'));
+                         
+                         $num_rows = count($results);
+                         $_SESSION['voted_voters'] = $num_rows;
+                         echo $num_rows; // total voted voters
+                        ?>
                     </div> 
                 </div>
-                <div class="">
-                    voted
-                </div>
+                <div class="">voted</div>
             </div> &nbsp; &nbsp; 
 
             <span class="mth-symbol"> = </span> &nbsp; &nbsp;
 
             <div class="remaing-user flex">
                 <div class="">
-                <div class="number" data-target="<?php echo "7000"; ?>">
-                        <?php echo "7000"; ?>
+                <div class="number" data-target="<?php 
+                                                    $total = $_SESSION['total_voters'];
+                                                    $votedd = $_SESSION['voted_voters'];
+                                                    $remainings = $total - $votedd ;
+                                                    echo $remainings ; ?>" >
+                        <?php echo $remainings; ?>
                     </div> 
                 </div>
                 <div class="">
