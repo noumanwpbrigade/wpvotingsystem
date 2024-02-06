@@ -9,6 +9,8 @@ if (!isset($_SESSION['user_data'])) {
     header("location: http://localhost/sitevoitngsystem/login-page-form/");
     exit();
 }
+
+
 ?>
 
 <header id="masthead" class="site-header">
@@ -111,7 +113,7 @@ if (!isset($_SESSION['user_data'])) {
                 <form action="" method="post" class="m-0" onsubmit="return confirm('After casting your vote, you cannot vote again, and editing your vote. Please confirm by pressing OK.')">
                     <input type="hidden" name="canID" value="<?php echo $candidate->candidateID; ?>">
                     <input type="hidden" name="votes" value="<?php echo $candidate->votesReceived; ?>">
-                    <?php if (!isset($_SESSION['hasvoted'])) { ?>
+                    <?php if ($_SESSION['user_data']['hasvoted'] != 'Voted') { ?>
                         <input type="submit" name="vote" value="Vote" class="vote-btn">
                     <?php } else { ?>
                         <button disabled class="vote-btn">Vote</button>
