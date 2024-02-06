@@ -19,8 +19,9 @@ if (isset($_SESSION['user_data'])) {
 
         <!-- user email -->
         <div class="form-group">
-            <label for="email">Email</label> <br>
-            <input type="text" name="lemail" id="email" required >
+            <label for="cnic">Enter CNIC</label> <br>
+            <input type="text" name="lcnic" class="form-control" id="cnic"
+                pattern="^[0-9]{5}-[0-9]{7}-[0-9]{1}$" title="Type CNIC like 34504-1234567-1" required >
         </div>
 
         <!-- password -->
@@ -45,7 +46,7 @@ if (isset($_SESSION['user_data'])) {
 get_footer();
 
 if (isset($_POST['loginbtn'])) {
-    $lemail = sanitize_text_field($_POST['lemail']);
+    $lcnic = sanitize_text_field($_POST['lcnic']);
     $lpassword = sanitize_text_field(sha1($_POST['lpassword']));
     $role = sanitize_text_field($_POST['role']);
 
@@ -55,7 +56,7 @@ if (isset($_POST['loginbtn'])) {
 
     if( $role == 'voter') {
 
-        $sql_email_pw = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE email = %s AND password = %s", $lemail, $lpassword));
+        $sql_email_pw = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE 	cnic = %s AND password = %s", $lcnic, $lpassword));
 
         if ($sql_email_pw) {
             // Login successful
@@ -82,7 +83,7 @@ if (isset($_POST['loginbtn'])) {
     } elseif( $role == 'admin' )  {
         // admin login
         $admin_role = 1;
-        $sql_email_pw = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE email = %s AND password = %s AND role = %s", $lemail, $lpassword, $admin_role));
+        $sql_email_pw = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE cnic = %s AND password = %s AND role = %s", $lcnic, $lpassword, $admin_role));
 
         if ($sql_email_pw) {
             // Login successful
@@ -107,7 +108,7 @@ if (isset($_POST['loginbtn'])) {
 
         } else {
             // Invalid email or password
-            echo '<p class="error-message">Admin, Invalid email or password. Please try again.</p>';
+            echo '<p class="error-message">Admin, Invalid CNIC or password. Please try again.</p>';
         }
         
     }
